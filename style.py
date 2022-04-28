@@ -125,7 +125,7 @@ def main():
         "epochs":options.epochs,
         "print_iterations":options.checkpoint_iterations,
         "batch_size":options.batch_size,
-        "save_path":os.path.join(options.checkpoint_dir,'fns.ckpt'),
+        "save_path":options.checkpoint_dir,
         "learning_rate":options.learning_rate
     }
 
