@@ -133,6 +133,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
                     if slow:
                        _preds = vgg.unprocess(_preds)
                     else:
+                       tf.compat.v1.saved_model.simple_save(os.path.join(save_path, str(iterations)), inputs={"X_content": X_content}, outputs={"Output": preds})
+                      
                        temp_path = os.path.join(save_path, str(iterations), 'fns.ckpt')
                        saver = tf.compat.v1.train.Saver()
                        res = saver.save(sess, temp_path)
