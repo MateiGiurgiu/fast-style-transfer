@@ -133,8 +133,9 @@ def optimize(content_targets, style_target, content_weight, style_weight,
                     if slow:
                        _preds = vgg.unprocess(_preds)
                     else:
+                       temp_path = os.path.join(save_path, str(iterations), 'fns.ckpt')
                        saver = tf.compat.v1.train.Saver()
-                       res = saver.save(sess, save_path)
+                       res = saver.save(sess, temp_path)
                     yield(_preds, losses, iterations, epoch)
 
 def _tensor_size(tensor):
