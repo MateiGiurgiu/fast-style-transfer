@@ -15,7 +15,7 @@ DEVICE = '/gpu:0'
 
 def process(checkpoint_dir, image_in, out_path, device_t='/gpu:0'):
 
-  img_shape = get_img(image_in[0]).shape
+  img_shape = get_img(image_in).shape
 
   g = tf.Graph()
   curr_num = 0
