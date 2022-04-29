@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, 'src')
 import transform, numpy as np, vgg, pdb, os
 import scipy.misc
 import tensorflow as tf
