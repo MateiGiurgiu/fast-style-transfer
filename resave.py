@@ -26,13 +26,13 @@ def process(checkpoint_dir, image_in, out_path, device_t='/gpu:0'):
     preds = transform.net(img_placeholder)
     saver = tf.compat.v1.train.Saver()
     if os.path.isdir(checkpoint_dir):
-        ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
-        if ckpt and ckpt.model_checkpoint_path:
-            saver.restore(sess, ckpt.model_checkpoint_path)
-        else:
-            raise Exception("No checkpoint found...")
+      ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+      if ckpt and ckpt.model_checkpoint_path:
+        saver.restore(sess, ckpt.model_checkpoint_path)
+      else:
+        raise Exception("No checkpoint found...")
     else:
-        saver.restore(sess, checkpoint_dir)
+      saver.restore(sess, checkpoint_dir)
 
     tf.compat.v1.saved_model.simple_save(sess, out_path, inputs={"X_content": img_placeholder}, outputs={"Y_output": preds})
       
@@ -44,7 +44,7 @@ def build_parser():
                       help='dir or .ckpt file to load checkpoint from',
                       metavar='CHECKPOINT', required=True)
 
-   parser.add_argument('--image-in', type=str,
+  parser.add_argument('--image-in', type=str,
                       dest='image_in',help='image to get the size from',
                       metavar='IMAGE_IN', required=True)
 
