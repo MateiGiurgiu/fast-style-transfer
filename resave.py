@@ -13,17 +13,14 @@ import numpy
 
 DEVICE = '/gpu:0'
 
-def process(checkpoint_dir, image_in, out_path, device_t='/gpu:0'):
-
-  img_shape = get_img(image_in).shape
+def process(checkpoint_dir, input_width, input_height, out_path, device_t='/gpu:0'):
 
   g = tf.Graph()
   curr_num = 0
   soft_config = tf.compat.v1.ConfigProto(allow_soft_placement=True)
   soft_config.gpu_options.allow_growth = True
   with g.as_default(), g.device(device_t), tf.compat.v1.Session(config=soft_config) as sess:
-    batch_shape = (1,) + img_shape
-    img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=batch_shape, name='img_placeholder')
+    img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=(1, input_width, input_height, 3), name='img_placeholder')
 
     preds = transform.net(img_placeholder)
     saver = tf.compat.v1.train.Saver()
@@ -45,10 +42,14 @@ def build_parser():
                       dest='checkpoint_dir',
                       help='dir or .ckpt file to load checkpoint from',
                       metavar='CHECKPOINT', required=True)
-
-  parser.add_argument('--image-in', type=str,
-                      dest='image_in',help='image to get the size from',
-                      metavar='IMAGE_IN', required=True)
+  
+  parser.add_argument('--input-width', type=int,
+                    dest='input_width',help='input shape width',
+                    metavar='INPUT_WIDTH', required=True)
+    
+  parser.add_argument('--input-height', type=int,
+                  dest='input_height',help='input shape height',
+                  metavar='INPUT_HEIGHT', required=True)
 
   parser.add_argument('--out-path', type=str,
                       dest='out_path', help='output directory', metavar='OUT_PATH',
@@ -66,7 +67,7 @@ def main():
   opts = parser.parse_args()
   check_opts(opts)
   
-  process(opts.checkpoint_dir, opts.image_in, opts.out_path, DEVICE)
+  process(opts.checkpoint_dir, opts.input_width, opts.input_height, opts.out_path, DEVICE)
 
   
 if __name__ == '__main__':
