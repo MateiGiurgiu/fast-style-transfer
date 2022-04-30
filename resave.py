@@ -20,7 +20,7 @@ def process(checkpoint_dir, input_width, input_height, out_path, device_t='/gpu:
   soft_config = tf.compat.v1.ConfigProto(allow_soft_placement=True)
   soft_config.gpu_options.allow_growth = True
   with g.as_default(), g.device(device_t), tf.compat.v1.Session(config=soft_config) as sess:
-    img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=(1, input_width, input_height, 3), name='img_placeholder')
+    img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=(1, input_height, input_width, 3), name='img_placeholder')
 
     preds = transform.net(img_placeholder)
     saver = tf.compat.v1.train.Saver()
